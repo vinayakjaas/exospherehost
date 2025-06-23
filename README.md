@@ -6,7 +6,6 @@
 To realize this, we are pioneering an open-source infrastructure layer for background AI workflows and agents that is robust, affordable, and effortless to use, empowering the scalable solutions and transformative tasks of today, tomorrow, and beyond.
 
 ## Core Concepts
-
 To have an intution of the first version of the platform, we would highly recommend watching the video below, this explains using our cluster apis with YML input, we are working on more modalities like pythonic control systems.
 
 <a href="https://www.youtube.com/watch?v=tfVYXpjyGqQ" target="_blank">
@@ -14,10 +13,11 @@ To have an intution of the first version of the platform, we would highly recomm
 </a>
 
 ### Satellite
-
 Satellites are the core building blocks for exosphere.They are lego blocks designed for a specific purpose: you can connect them together to create complex systems in a matter of minutes without worrying about the underlying infrastructure.
 
 They are pre-implemented serverless functions highly optimized for workflows and high volume batch processing, optimized for cost, reliability, developer velocity and ease of use.
+
+Our inhouse optimization for workflowss and batch processing can lead to significant cost savings, for example you can expect a cost per token saving of about 50-75% on LLMs like DeepSeek R1 70B, Gemma 3 27B, etc.
 
 Each of these satellites must satisfy the following properties:
 
@@ -32,7 +32,6 @@ Each of these satellites must satisfy the following properties:
 Further work is being done to allow users to bring their own satellites and use our core infrastructure to manage their lifecycle.
 
 ### Cluster
-
 A Cluster is a collection of satellites connected together to form a complete workflow: a series of satellities working togehter to achieve a common goal.
 
 Each of these clusters must satisfy the following properties:
@@ -47,11 +46,9 @@ Each of these clusters must satisfy the following properties:
 Developers can define their own clusters using our cluster api, which supports cluster creation, deletion, status, logs and other operations. Currently we are supporting cluster creation through `YML` files or our APIs and SDKs.
 
 ### Orbit
-
 Orbit is the core compute platfrom capable of managing the lifecycle of satellites and clusters optimally across multiple computes including GPUs, CPUs, and other hardware. Further allowing developers to write their own satellites and plug-in with our core exosphere platform.
 
 ## Example
-
 Here is an example of using our cluster api to create a satellite cluster to get structured json from PDF files of quaterly financial reports. The workflow in the image could be represented as the `YML` file below.
 
 ![Example Workflow](assets/example-workflow.png)
@@ -177,11 +174,13 @@ cluster:
         from: parse-pdf-with-docling
         satellites:
             - name: Move to failure bucket
-              uses: satellite/exospherehost/move-to-failure-bucket
+              uses: satellite/exospherehost/move-to-s3
               identifier: move-to-failure-bucket
               config:
+                origin-source: s3
                 origin-bucket: aikin-financial-reports-failure
                 origin-file-path: $${{satellites.get-files-from-s3.output.file-path}}
+                destination-source: s3
                 destination-bucket: aikin-financial-reports-failure
                 destination-file-path: failed/quaterly-financial-reports/$${{satellites.get-files-from-s3.output.file-name}}
                 secrets:
@@ -203,28 +202,33 @@ cluster:
 This could also be represented as a pythonic control using our SDK/APIs, checkout [documentation](https://docs.exosphere.host) for more details.
 
 ## Documentation
-
 For more information, please refer to our [documentation](https://docs.exosphere.host).
 
 ### Steps to build the Documentation locally
-
 1. Install UV: Follow the offical instructions [here](https://docs.astral.sh/uv/#installation).
 2. Clone this repository, use command `git clone https://github.com/exospherehost/exospherehost.git`
 3. Install dependencies by navigating to `docs` folder and executing `uv sync`
 4. Use the command `uv run mkdocs serve` while `docs` folder being your working path.
 
 ### Contribute to Documentation
-
 We encourage contributions to the documentation page, you can simply add a new PR with the `documentation` label.
 
-## Contributing
+## Open Source Commitment
 
-We welcome community contributions. For guidelines, refer to our [CONTRIBUTING.md](/CONTRIBUTING.md).
+We believe that humanity would not have been able to achieve the level of innovation and progress we have today without the support of open source and community, we want to be a part of this movement and support the open source community. In following ways: 
+
+1. We will be open sourcing majority of our codebase for exosphere.host and making it available to the community. We welcome all sort of contributions and feedback from the community and will be happy to collaborate with you.
+2. For whatever the profits which we generate from exosphere.host, we will be donating a portion of it to open source projects and communities. If you have any questions, suggestions or ideas.
+3. We would be further collaborating with various open source student programs to provide with the support and encourage and mentor the next generation of open source contributors.
+
+Please feel free to reach out to us at [nivedit@exosphere.host](mailto:nivedit@exosphere.host). Lets push the boundaries of possibilities for humanity together!
+
+## Contributing
+We welcome community contributions. For guidelines, refer to our [CONTRIBUTING.md](/CONTRIBUTING.md). Further we are thankful to all the contributors helping us to simplify infrastructure starting with the process of building and deploying AI workflows and agents.
 
 ![exosphere.host Contributors](https://contrib.rocks/image?repo=exospherehost/exospherehost)
 
 ## Star History
-
 <a href="https://www.star-history.com/#exospherehost/exospherehost&Date" target="_blank">
  <picture>
    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=exospherehost/exospherehost&type=Date&theme=dark" />

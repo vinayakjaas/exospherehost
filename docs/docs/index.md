@@ -19,6 +19,8 @@ Satellites are the core building blocks for exosphere.They are lego blocks desig
 
 They are pre-implemented serverless functions highly optimized for workflows and high volume batch processing, optimized for cost, reliability, developer velocity and ease of use.
 
+Our inhouse optimization for workflowss and batch processing can lead to significant cost savings, for example you can expect a cost per token saving of about 50-75% on LLMs like DeepSeek R1 70B, Gemma 3 27B, etc.
+
 Each of these satellites must satisfy the following properties:
 
 1. Should be idempotent and stateless.
@@ -178,20 +180,23 @@ cluster:
   failure:
     # run from failured steps from this satellite
     from: parse-pdf-with-docling
+    
     satellites:
-        - name: Move to failure bucket
-          uses: satellite/exospherehost/move-to-failure-bucket
-          identifier: move-to-failure-bucket
-          config:
-            origin-bucket: aikin-financial-reports-failure
-            origin-file-path: $${{satellites.get-files-from-s3.output.file-path}}
-            destination-bucket: aikin-financial-reports-failure
-            destination-file-path: failed/quaterly-financial-reports/$${{satellites.get-files-from-s3.output.file-name}}
-            secrets:
-                - ORIGIN_AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
-                - ORIGIN_AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
-                - DESTINATION_AWS_ACCESS_KEY: ${{ secrets.FAILURE_S3_AWS_ACCESS_KEY }}
-                - DESTINATION_AWS_SECRET_KEY: ${{ secrets.FAILURE_S3_AWS_SECRET_KEY }}
+         - name: Move to failure bucket
+            uses: satellite/exospherehost/move-file
+            identifier: move-to-failure-bucket
+            config:
+              origin-source: s3
+              origin-bucket: aikin-financial-reports-failure
+              origin-file-path: $${{satellites.get-files-from-s3.output.file-path}}
+              destination-source: s3
+              destination-bucket: aikin-financial-reports-failure
+              destination-file-path: failed/quaterly-financial-reports/$${{satellites.get-files-from-s3.output.file-name}}
+              secrets:
+                  - ORIGIN_AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+                  - ORIGIN_AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+                  - DESTINATION_AWS_ACCESS_KEY: ${{ secrets.FAILURE_S3_AWS_ACCESS_KEY }}
+                  - DESTINATION_AWS_SECRET_KEY: ${{ secrets.FAILURE_S3_AWS_SECRET_KEY }}
         - name: Send failure notification on PagerDuty
           uses: satellite/exospherehost/send-pagerduty-alert
           identifier: send-pagerduty-alert
@@ -204,6 +209,16 @@ cluster:
 ```
 
 This could also be represented as a pythonic control using our SDK/APIs, checkout [documentation](https://docs.exosphere.host) for more details.
+
+## Open Source Commitment
+
+We believe that humanity would not have been able to achieve the level of innovation and progress we have today without the support of open source and community, we want to be a part of this movement and support the open source community. In following ways: 
+
+1. We will be open sourcing majority of our codebase for exosphere.host and making it available to the community. We welcome all sort of contributions and feedback from the community and will be happy to collaborate with you.
+2. For whatever the profits which we generate from exosphere.host, we will be donating a portion of it to open source projects and communities. If you have any questions, suggestions or ideas.
+3. We would be further collaborating with various open source student programs to provide with the support and encourage and mentor the next generation of open source contributors.
+
+Please feel free to reach out to us at [nivedit@exosphere.host](mailto:nivedit@exosphere.host). Lets push the boundaries of possibilities for humanity together!
 
 ## Contributing
 
