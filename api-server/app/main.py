@@ -58,7 +58,6 @@ app.add_middleware(RequestIdMiddleware)
 
 app.add_middleware(UnhandledExceptionsMiddleware)
 
-
 @app.get("/health")
 def health() -> dict:
     return {"message": "OK"}
