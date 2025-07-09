@@ -61,6 +61,4 @@ jobs:
           kubectl get nodes
       - name: Deploy to Kubernetes
         run: |
-          echo $PWD
-          ls -la
           kubectl apply -f ./k8s/
