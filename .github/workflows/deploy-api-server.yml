@@ -3,8 +3,6 @@ name: Publish API server image to GHCR and deploys to Kubernetes Cluster
 on:
   push:
     branches: [main]
-    paths:
-      - 'api-server/**'
   release:
     types: [published]
   workflow_dispatch:
@@ -62,4 +60,5 @@ jobs:
           kubectl get nodes
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f k8s/
+          echo $PWD
+          kubectl apply -f ./k8s/
