@@ -17,4 +17,4 @@ jobs:
           kubectl get nodes
           kubectl delete secret exosphere-api-server-secrets --ignore-not-found
           kubectl create secret generic exosphere-api-server-secrets --from-literal=MONGO_URI=${{ secrets.MONGO_URI }} --from-literal=MONGO_DATABASE_NAME=${{ secrets.MONGO_DATABASE_NAME }} --from-literal=JWT_SECRET_KEY=${{ secrets.JWT_SECRET }}
-          kubectl apply -f ./k8s/
+          kubectl apply -f ./k8s/ --force-conflicts --server-side
