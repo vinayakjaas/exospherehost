@@ -1,4 +1,4 @@
-name: Publish API server image to GHCR
+name: Publish Landing Page image to GHCR
 
 on:
   push:
@@ -46,7 +46,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./api-server
+          context: ./landing-page
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
