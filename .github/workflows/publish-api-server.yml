@@ -1,4 +1,4 @@
-name: Publish API server image to GHCR
+name: Publish API server image to GHCR and Deploy to K8s using ArgoCD
 
 on:
   push:
@@ -12,6 +12,8 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository_owner }}/exosphere-api-server
+  SHA_TAG: ${{ github.sha }}
+  APP_NAME: exosphere-api-server
 
 jobs:
   publish-image:
@@ -39,9 +41,8 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=raw,value=latest
-            type=sha,format=short
-            type=ref,event=tag           # v1.2.3 → v1.2.3
+            type=raw, value=latest
+            type=sha, value=${{ env.SHA_TAG }}
 
       - name: Build and push
         uses: docker/build-push-action@v5
@@ -50,3 +51,28 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  deploy-to-k8s:
+    needs: publish-image
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: clowdhaus/argo-cd-action@main
+        with:
+          version: 3.0.0
+
+      - name: Login to ArgoCD
+        run: |
+          argocd login ${{ secrets.ARGO_SERVER }} --insecure ${{ secrets.ARGO_INSECURE }} --username ci --password ${{ secrets.ARGO_TOKEN }} --grpc-web
+
+      - name: Set image tag
+        run: |
+          argocd app set ${{ env.APP_NAME }} --image ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.SHA_TAG }}
+
+      - name: Sync Application
+        run: |
+          argocd app sync ${{ env.APP_NAME }}
+
+      - name: Wait for Application to be Synced
+        run: |
+          argocd app wait ${{ env.APP_NAME }} --health --timeout 1200
