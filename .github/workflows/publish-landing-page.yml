@@ -62,7 +62,9 @@ jobs:
           export KUBECONFIG=$PWD/kubeconfig.yaml
           kubectl get nodes
 
-          echo "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.SHA_TAG }}"
+          echo "${{ steps.meta.outputs.tags }}"
+
+          exit 1
 
           kubectl set image deployment/exosphere-landing-page exosphere-landing-page=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.SHA_TAG }}
 
