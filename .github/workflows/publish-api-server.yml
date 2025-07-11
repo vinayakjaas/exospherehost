@@ -13,7 +13,6 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository_owner }}/exosphere-api-server
   SHA_TAG: ${{ github.sha }}
-  APP_NAME: exosphere-api-server
 
 jobs:
   publish-image:
