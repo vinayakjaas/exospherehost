@@ -1,4 +1,4 @@
-name: Deploy API server to Kubernetes Cluster
+name: Deploy Kubernetes Cluster
 
 on:
   workflow_dispatch:

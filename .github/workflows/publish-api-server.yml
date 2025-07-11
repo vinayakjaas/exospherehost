@@ -63,7 +63,7 @@ jobs:
           export KUBECONFIG=$PWD/kubeconfig.yaml
           kubectl get nodes
 
-          kubectl set image deployment/exosphere-api-server ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.SHA_TAG }}
+          kubectl set image deployment/exosphere-api-server app=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.SHA_TAG }}
 
           kubectl rollout status deployment/exosphere-api-server --timeout=1200s
 
