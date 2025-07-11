@@ -1,4 +1,4 @@
-name: Publish Landing Page image to GHCR
+name: Publish API server image to GHCR
 
 on:
   push:
