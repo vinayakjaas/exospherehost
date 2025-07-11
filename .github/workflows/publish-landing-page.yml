@@ -65,7 +65,7 @@ jobs:
           export KUBECONFIG=$PWD/kubeconfig.yaml
           kubectl get nodes
 
-          echo "${{ needs.publish-image.outputs.tags }}"
+          echo "${{ needs.publish-image.outputs.tags[1] }}"
 
           exit 1
 
