@@ -1,4 +1,4 @@
-name: Publish Landing Page image to GHCR
+name: Publish Landing Page image to GHCR and Deploy to K8s
 
 on:
   push:
@@ -60,6 +60,8 @@ jobs:
           echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > kubeconfig.yaml
           export KUBECONFIG=$PWD/kubeconfig.yaml
           kubectl get nodes
+
+          echo "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.SHA_TAG }}"
 
           kubectl set image deployment/exosphere-landing-page exosphere-landing-page=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.SHA_TAG }}
 
