@@ -61,18 +61,14 @@ jobs:
         with:
           version: 3.0.0
 
-      - name: Login to ArgoCD
-        run: |
-          argocd login ${{ secrets.ARGO_SERVER }} --insecure ${{ secrets.ARGO_INSECURE }} --username ci --password ${{ secrets.ARGO_TOKEN }} --grpc-web
-
       - name: Set image tag
         run: |
-          argocd app set ${{ env.APP_NAME }} --image ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.SHA_TAG }}
+          argocd app set ${{ env.APP_NAME }} --image ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.SHA_TAG }} --auth-token ${{ secrets.ARGO_TOKEN }} --insecure
 
       - name: Sync Application
         run: |
-          argocd app sync ${{ env.APP_NAME }}
+          argocd app sync ${{ env.APP_NAME }} --auth-token ${{ secrets.ARGO_TOKEN }} --insecure
 
       - name: Wait for Application to be Synced
         run: |
-          argocd app wait ${{ env.APP_NAME }} --health --timeout 1200
+          argocd app wait ${{ env.APP_NAME }} --health --timeout 1200 --auth-token ${{ secrets.ARGO_TOKEN }} --insecure
