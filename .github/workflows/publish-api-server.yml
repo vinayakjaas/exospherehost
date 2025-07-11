@@ -21,6 +21,10 @@ jobs:
     permissions:
       contents: read
       packages: write
+    
+    outputs:
+      tags: ${{ steps.meta.outputs.tags }}
+      json: ${{ steps.meta.outputs.json }}
 
     steps:
       - uses: actions/checkout@v4
@@ -62,7 +66,7 @@ jobs:
           export KUBECONFIG=$PWD/kubeconfig.yaml
           kubectl get nodes
 
-          kubectl set image deployment/exosphere-api-server exosphere-api-server=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.SHA_TAG }}
+          kubectl set image deployment/exosphere-api-server exosphere-api-server=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{fromJson(needs.publish-image.outputs.json).tags[1]}}
 
           kubectl rollout status deployment/exosphere-api-server
 
