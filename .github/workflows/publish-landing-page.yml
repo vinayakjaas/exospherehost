@@ -12,6 +12,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository_owner }}/exosphere-landing-page
+  SHA_TAG: ${{ github.sha }}
 
 jobs:
   publish-image:
