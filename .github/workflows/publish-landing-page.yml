@@ -66,9 +66,9 @@ jobs:
           export KUBECONFIG=$PWD/kubeconfig.yaml
           kubectl get nodes
 
-          echo "selected image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ fromJson(needs.publish-image.outputs.json).tags[1] }}"
+          echo "selected image: ${{ fromJson(needs.publish-image.outputs.json).tags[1] }}"
 
-          kubectl set image deployment/exosphere-landing-page exosphere-landing-page=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ fromJson(needs.publish-image.outputs.json).tags[1] }}
+          kubectl set image deployment/exosphere-landing-page exosphere-landing-page=${{ fromJson(needs.publish-image.outputs.json).tags[1] }}
 
           kubectl rollout status deployment/exosphere-landing-page
 
