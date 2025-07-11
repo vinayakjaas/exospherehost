@@ -1,4 +1,4 @@
-name: Publish API server image to GHCR and Deploy to K8s using ArgoCD
+name: Publish API server image to GHCR and Deploy to K8s
 
 on:
   push:
@@ -63,16 +63,16 @@ jobs:
           export KUBECONFIG=$PWD/kubeconfig.yaml
           kubectl get nodes
 
-          kubectl set image deployment/exosphere-api-server app=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.SHA_TAG }}
+          kubectl set image deployment/exosphere-api-server exosphere-api-server=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.SHA_TAG }}
 
-          kubectl rollout status deployment/exosphere-api-server --timeout=1200s
+          kubectl rollout status deployment/exosphere-api-server
 
-          status=$(kubectl rollout status deployment/exosphere-api-server --watch false)
+          status=$(kubectl rollout status deployment/exosphere-api-server)
 
           echo "$status"
 
           if [[ "$status" != *"successfully rolled out"* ]]; then
-            kubectl rollout undo deployment/exosphere-api-server -n your-namespace
+            kubectl rollout undo deployment/exosphere-api-server
             echo "❌ Deployment failed. Rolled back." >&2
             exit 1
           fi

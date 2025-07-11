@@ -50,3 +50,27 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  deploy-to-k8s:
+    needs: publish-image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to K8s
+        run: |
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > kubeconfig.yaml
+          export KUBECONFIG=$PWD/kubeconfig.yaml
+          kubectl get nodes
+
+          kubectl set image deployment/exosphere-landing-page exosphere-landing-page=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.SHA_TAG }}
+
+          kubectl rollout status deployment/exosphere-landing-page
+
+          status=$(kubectl rollout status deployment/exosphere-landing-page)
+
+          echo "$status"
+
+          if [[ "$status" != *"successfully rolled out"* ]]; then
+            kubectl rollout undo deployment/exosphere-landing-page
+            echo "❌ Deployment failed. Rolled back." >&2
+            exit 1
+          fi
