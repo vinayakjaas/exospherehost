@@ -24,7 +24,3 @@ jobs:
           kubectl apply -f ./api-server-deployment.yaml
           kubectl apply -f ./api-server-service.yaml
           kubectl apply -f ./api-server-ingress.yaml
-
-          helm upgrade --install traefik traefik/traefik \
-            --namespace traefik --create-namespace \
-            -f k8s/traefik-values.yaml
