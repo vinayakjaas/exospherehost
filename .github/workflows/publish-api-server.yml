@@ -57,18 +57,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: clowdhaus/argo-cd-action@main
-        with:
-          version: 3.0.0
-
-      - name: Set image tag
+      - name: Deploy to K8s
         run: |
-          argocd app set ${{ env.APP_NAME }} --image ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.SHA_TAG }} --auth-token ${{ secrets.ARGO_TOKEN }} --insecure
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > kubeconfig.yaml
+          export KUBECONFIG=$PWD/kubeconfig.yaml
+          kubectl get nodes
 
-      - name: Sync Application
-        run: |
-          argocd app sync ${{ env.APP_NAME }} --auth-token ${{ secrets.ARGO_TOKEN }} --insecure
+          kubectl set image deployment/exosphere-api-server ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.SHA_TAG }}
 
-      - name: Wait for Application to be Synced
-        run: |
-          argocd app wait ${{ env.APP_NAME }} --health --timeout 1200 --auth-token ${{ secrets.ARGO_TOKEN }} --insecure
+          kubectl rollout status deployment/exosphere-api-server --timeout=1200s
+
+          status=$(kubectl rollout status deployment/exosphere-api-server --watch false)
+
+          echo "$status"
+
+          if [[ "$status" != *"successfully rolled out"* ]]; then
+            kubectl rollout undo deployment/exosphere-api-server -n your-namespace
+            echo "❌ Deployment failed. Rolled back." >&2
+            exit 1
+          fi
