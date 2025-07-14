@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: exosphere-landing-page
+  name: exosphere-web-client
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: exosphere-landing-page
+      app: exosphere-web-client
   template:
     metadata:
       labels:
-        app: exosphere-landing-page
+        app: exosphere-web-client
     spec:
       containers:
-        - name: exosphere-landing-page
-          image: ghcr.io/exospherehost/exosphere-landing-page:latest
+        - name: exosphere-web-client
+          image: ghcr.io/exospherehost/exosphere-web-client:latest
           ports:
             - containerPort: 3000
           resources:
