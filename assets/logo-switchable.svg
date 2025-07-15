@@ -12,7 +12,7 @@
   <!-- Light mode logo -->
   <image
     class="light"
-    href="https://raw.githubusercontent.com/vinayakjaas/exospherehost/refs/heads/main/assets/logo-light.svg"
+    href="https://raw.githubusercontent.com/vinayakjaas/exospherehost/refs/heads/logo-mode/assets/logo-light.svg"
     width="320"
     height="80"
   />
@@ -20,7 +20,7 @@
   <!-- Dark mode logo -->
   <image
     class="dark"
-    href="https://raw.githubusercontent.com/vinayakjaas/exospherehost/refs/heads/main/assets/logo-dark.svg"
+    href="https://raw.githubusercontent.com/vinayakjaas/exospherehost/refs/heads/logo-mode/assets/logo-dark.svg"
     width="320"
     height="80"
   />
