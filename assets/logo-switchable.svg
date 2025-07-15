@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="80">
+  <style>
+    .dark { display: none; }
+    .light { display: block; }
+
+    @media (prefers-color-scheme: dark) {
+      .dark { display: block; }
+      .light { display: none; }
+    }
+  </style>
+
+  <!-- Light mode logo -->
+  <image
+    class="light"
+    href="https://raw.githubusercontent.com/vinayakjaas/exospherehost/refs/heads/main/assets/logo-light.svg"
+    width="320"
+    height="80"
+  />
+
+  <!-- Dark mode logo -->
+  <image
+    class="dark"
+    href="https://raw.githubusercontent.com/vinayakjaas/exospherehost/refs/heads/main/assets/logo-dark.svg"
+    width="320"
+    height="80"
+  />
+</svg>
