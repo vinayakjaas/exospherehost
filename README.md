@@ -2,7 +2,7 @@
 ![logo dark](assets/logo-dark.svg#gh-dark-mode-only) -->
 <p align="center">
   <a href="https://exosphere.host">
-    <img src="https://raw.githubusercontent.com/vinayakjaas/exospherehost/refs/heads/main/assets/logo-switchable.svg.svg"  alt="Exosphere Logo" />
+    <img src="https://raw.githubusercontent.com/vinayakjaas/exospherehost/refs/heads/logo-mode/assets/logo-switchable.svg.svg"  alt="Exosphere Logo" />
   </a>
 </p>
 
