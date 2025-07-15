@@ -2,8 +2,8 @@
 ![logo dark](assets/logo-dark.svg#gh-dark-mode-only) -->
 <div align="center">
   <picture>
-    <source srcset="assets/logo-dark.svg" media="(prefers-color-scheme: dark)">
-    <img src="assets/logo-light.svg" alt="Logo" >
+    <source srcset="https://raw.githubusercontent.com/vinayakjaas/exospherehost/logo-mode/assets/logo-dark.svg" media="(prefers-color-scheme: dark)">
+    <img src="https://raw.githubusercontent.com/vinayakjaas/exospherehost/logo-mode/assets/logo-light.svg" alt="Logo" >
   </picture>
 </div>
 
