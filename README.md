@@ -1,11 +1,11 @@
 <!-- ![logo light](assets/logo-light.svg#gh-light-mode-only)
 ![logo dark](assets/logo-dark.svg#gh-dark-mode-only) -->
-<p align="center">
-  <a href="https://exosphere.host">
-    <img src="https://raw.githubusercontent.com/vinayakjaas/exospherehost/refs/heads/logo-mode/assets/logo-switchable.svg.svg"  alt="Exosphere Logo" />
-  </a>
-</p>
-
+<div align="center">
+  <picture>
+    <source srcset="assets/logo-dark.svg" media="(prefers-color-scheme: dark)">
+    <img src="assets/logo-light.svg" alt="Logo" >
+  </picture>
+</div>
 
 
 > We are building a world where creators and innovators can fully dedicate themselves to crafting extraordinary products and services, unburdened by the complexities of the underlying infrastructure. We foresee a future where intelligent systems seamlessly operate behind the scenes, tackling intricate, high-scale challenges with immense computational demands and vast data movements.
